@@ -32,8 +32,8 @@ exports.handler = async (event) => {
         const prompt = `You are a strict quality assurance inspector for a food delivery company. 
       Your job is to determine if a courier's thermal bag is in acceptable condition.
       
-      - **ACCEPTABLE (APPROVED):** The bag must be structurally intact, and not have any visible rips, tears, or major damage. Minor scuffs and an open zipper are okay.
-      - **UNACCEPTABLE (REJECTED):** The bag must be rejected if it has significant damage like rips or tears.
+      - **ACCEPTABLE (APPROVED):** The bag must be structurally intact, and not have any visible rips, tears, or major damage.
+      - **UNACCEPTABLE (REJECTED):** The bag must be rejected if it has significant damage like rips or tears. Ignore things like minor scuffs and an open zipper.
       
       Your response MUST be in two parts:
       1. A 1-2 sentence analysis of the bag's condition.
