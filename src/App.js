@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useState } from 'react';
 import {
     Container,
@@ -14,11 +12,6 @@ import {
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
-
-// REMOVED: We no longer get the model object separately.
-// const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
-
 function App() {
     const [imageFile, setImageFile] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
@@ -26,7 +19,6 @@ function App() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // This helper function remains the same
     const fileToGenerativePart = async (file) => {
         const base64EncodedDataPromise = new Promise((resolve) => {
             const reader = new FileReader();
@@ -78,7 +70,6 @@ function App() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // Send the image data in the request body
                 body: JSON.stringify({ imagePart: imagePart }),
             });
 
@@ -90,7 +81,6 @@ function App() {
             const responseText = await response.text();
 
 
-            // --- Parsing the response remains the same ---
             let analysis = "No reasoning provided.";
             let status = "REJECTED";
 
