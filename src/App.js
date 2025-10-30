@@ -36,7 +36,7 @@ function App() {
         setError('');
 
         if (file) {
-            if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+            if (!['image/png', 'image/jpeg', 'image/webp', 'application/pdf'].includes(file.type)) {
                 setError("Invalid file type. Please upload a PNG, JPG, WEBP or PDF.");
                 return;
             }
@@ -152,11 +152,11 @@ function App() {
                         <Typography fontWeight="medium">
                             <span style={{color: '#1976d2'}}>Click to upload</span> or drag and drop
                         </Typography>
-                        <Typography variant="caption">PNG, JPG, or WEBP</Typography>
+                        <Typography variant="caption">PNG, JPG, WEBP, or PDF</Typography>
                         <input
                             type="file"
                             hidden
-                            accept="image/png, image/jpeg, image/webp"
+                            accept="image/png, image/jpeg, image/webp, application/pdf"
                             onChange={handleImageChange}
                         />
                     </Button>
