@@ -1,8 +1,6 @@
 // src/App.js
 
 import React, { useState } from 'react';
-// The package is @google/genai
-import { GoogleGenAI } from "@google/genai";
 import {
     Container,
     Typography,
@@ -15,9 +13,7 @@ import {
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-// --- Gemini API Configuration ---
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenAI({apiKey: GEMINI_API_KEY});
+
 
 // REMOVED: We no longer get the model object separately.
 // const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
@@ -75,25 +71,24 @@ function App() {
         setError('');
 
         try {
-            const prompt = `You are a strict quality assurance inspector for a food delivery company. 
-      Your job is to determine if a courier's thermal bag is in acceptable condition.
-      
-      - **ACCEPTABLE (APPROVED):** The bag must be clean, structurally intact, and not have any visible rips, tears, or major damage. Minor scuffs are okay.
-      - **UNACCEPTABLE (REJECTED):** The bag must be rejected if it has significant dirt, large stains, any rips or tears, broken zippers, or is crushed/deformed.
-      
-      Your response MUST be in two parts:
-      1. A 1-2 sentence analysis of the bag's condition.
-      2. On a new line, conclude with 'STATUS: APPROVED' or 'STATUS: REJECTED'.`;
-
             const imagePart = await fileToGenerativePart(imageFile);
 
-            const apiResult = await genAI.models.generateContent({
-                model: "gemini-2.5-flash", // Specify model name here
-                contents: [prompt, imagePart], // Pass contents as an array
+            const response = await fetch('/.netlify/functions/analyzeImage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // Send the image data in the request body
+                body: JSON.stringify({ imagePart: imagePart }),
             });
-            // ---------------------------------------------
 
-            const responseText = apiResult.text;
+            if (!response.ok) {
+                const errorBody = await response.json().catch(() => ({ error: "An unknown error occurred." }));
+                throw new Error(errorBody.error || `Server error: ${response.status}`);
+            }
+
+            const responseText = await response.text();
+
 
             // --- Parsing the response remains the same ---
             let analysis = "No reasoning provided.";
@@ -116,7 +111,7 @@ function App() {
 
         } catch (err) {
             console.error(err);
-            setError("Failed to analyze the image. The API may be busy. Please try again.");
+            setError(err.message || "Failed to analyze the image. Please try again.");
         } finally {
             setLoading(false);
         }
