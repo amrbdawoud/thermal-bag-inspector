@@ -45,7 +45,7 @@ function App() {
 
         if (file) {
             if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
-                setError("Invalid file type. Please upload a PNG, JPG, or WEBP image.");
+                setError("Invalid file type. Please upload a PNG, JPG, WEBP or PDF.");
                 return;
             }
             setImageFile(file);
