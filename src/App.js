@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
@@ -24,6 +25,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </Box>
+        <Footer />
       </Box>
     </Router>
   );
